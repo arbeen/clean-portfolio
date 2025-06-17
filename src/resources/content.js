@@ -1,16 +1,16 @@
 import { Logo } from "@once-ui-system/core";
 
 const person = {
-  firstName: "Selene",
-  lastName: "Yu",
+  firstName: "Arbin",
+  lastName: "Shrestha",
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "Design Engineer",
+  role: "Web Developer",
   avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  email: "arbinshrestha98@gmail.com",
+  location: "America/Toronto", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  languages: ["English"], // optional: Leave the array empty if you don't want to display languages
 };
 
 const newsletter = {
@@ -30,17 +30,12 @@ const social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system/nextjs-starter",
+    link: "https://github.com/arbeen",
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
-  },
-  {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
+    link: "https://www.linkedin.com/in/arbinshrestha/",
   },
   {
     name: "Email",
@@ -58,22 +53,20 @@ const home = {
   headline: <>Building bridges between design and code</>,
   featured: {
     display: true,
-    title: <>Recent project: <strong className="ml-4">Once UI</strong></>,
+    title: <>Recent project: <strong className="ml-4">momentsnlens</strong></>,
     href: "/work/building-once-ui-a-customizable-design-system",
   },
   subline: (
     <>
-      I'm Selene, a design engineer at <Logo icon="/trademarks/wordmark-dark.svg" style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}/>, where I craft intuitive
-      <br /> user experiences. After hours, I build my own projects.
+      I'm Arbin, a full stack web developer and student at Lambton College. I build modern, user-friendly apps with React, Node.js, and Flask, and love turning ideas into real-world solutions.
     </>
   ),
 };
-
 const about = {
   path: "/about",
   label: "About",
-  title: `About – ${person.name}`,
-  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+  title: `About – Arbin Shrestha`,
+  description: `Meet Arbin Shrestha, Full Stack Developer and student based in Ottawa, Canada`,
   tableOfContent: {
     display: true,
     subItems: false,
@@ -83,59 +76,67 @@ const about = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "https://cal.com", // Replace with your actual booking link if available
   },
   intro: {
     display: true,
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Arbin is a passionate full stack developer and Lambton College student based in Ottawa. 
+        With over 3 years of professional experience across international teams, he has contributed 
+        to frontend systems, cross-platform apps, and blockchain solutions using modern tools 
+        like React, Next.js, Flutter, and the MERN stack. He thrives on solving complex problems with elegant code.
       </>
     ),
   },
   work: {
-    display: true, // set to false to hide this section
-    title: "Work Experience",
+    display: true,
+    title: "Professional Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Yuvoice (Freelance & Volunteer)",
+        timeframe: "2019 – Present",
+        role: "Frontend Developer",
         achievements: [
-          <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
-          </>,
-          <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
-          </>,
+          <>Assisting in frontend development and improving platform usability.</>,
         ],
-        images: [
-          // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Ramailo Tech",
+        timeframe: "Dec 2022 – June 2023",
+        role: "Tech Lead",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Spearheaded development of an inter-device file transfer app using Next.js and Flutter.
+          </>,
+          <>Led UI/UX design initiatives and requirement gathering sessions.</>,
+        ],
+        images: [],
+      },
+      {
+        company: "Xcellab",
+        timeframe: "June 2021 – Dec 2022",
+        role: "Frontend Developer",
+        achievements: [
+          <>
+            Optimized MERN stack applications to enhance performance and maintainability.
+          </>,
+          <>Built portfolio sites using Strapi and contributed to blockchain-based projects.</>,
+        ],
+        images: [],
+      },
+      {
+        company: "Axios Softworks",
+        timeframe: "Nov 2019 – Apr 2021",
+        role: "Frontend Developer",
+        achievements: [
+          <>
+            Developed responsive web apps, boosting user engagement and accessibility.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Gained experience in Python and DevOps on enterprise-level applications.
           </>,
         ],
         images: [],
@@ -143,54 +144,47 @@ const about = {
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
-    title: "Studies",
+    display: true,
+    title: "Education",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "Lambton College, Ottawa, ON",
+        description: <>Post-Graduate Diploma in Full Stack Software Development (In Progress, expected Aug 2025)</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Tribhuvan University, Nepal",
+        description: <>B.Sc. in Computer Science & Information Technology, Graduated 2019</>,
       },
     ],
   },
   technical: {
-    display: true, // set to false to hide this section
-    title: "Technical skills",
+    display: true,
+    title: "Technical Skills",
     skills: [
       {
-        title: "Figma",
-        description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        title: "React & Next.js",
+        description: <>Building fast, scalable web interfaces with React, Vite, and Next.js.</>,
+        images: [],
       },
       {
-        title: "Next.js",
-        description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        title: "Flutter",
+        description: <>Cross-platform mobile app development with Flutter and Dart.</>,
+        images: [],
+      },
+      {
+        title: "MERN Stack",
+        description: <>Full-stack development using MongoDB, Express, React, and Node.js.</>,
+        images: [],
+      },
+      {
+        title: "Strapi & CMS",
+        description: <>Content management and backend APIs using Strapi and headless CMS.</>,
+        images: [],
+      },
+      {
+        title: "DevOps & Python",
+        description: <>Hands-on with CI/CD pipelines and Python scripting for backend services.</>,
+        images: [],
       },
     ],
   },

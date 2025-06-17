@@ -1,0 +1,215 @@
+---
+title: "Implementing DevOps for a Bookstore API"
+summary: "A technical deep dive into how our team applied CI/CD, Docker, Jest, and GCP to streamline development and deployment."
+publishedAt: "2025-06-17"
+image: "/images/blog/devops/thumb.webp"
+tag: "DevOps"
+---
+
+## Introduction
+
+For our group project, we enhanced a Bookstore API by implementing modern DevOps practices. The goal was to automate testing, building, and deployment using **GitHub Actions**, **Docker**, and **Google Cloud Platform**—resulting in a secure, scalable pipeline.
+
+We’ll walk through every step: from setting up CI, writing API tests with **Jest**, managing secrets, to deploying on **Cloud Run**.
+
+---
+
+## Setting up Continuous Integration with GitHub Actions
+
+GitHub Actions helps automate workflows like testing and deployment. We used it to run linting and unit tests on every push and pull request.
+
+<CodeBlock
+  marginBottom="16"
+  highlight="1-2,6-7,18-24"
+  codes={[
+  {
+    code: `name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: \${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: bookstore_test
+        ports:
+          - 3306:3306
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.20.5
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+        env:
+          DATABASE_HOST: 127.0.0.1
+          DATABASE_PORT: 3306
+          DATABASE_USER: root
+          DATABASE_PASSWORD: \${{ secrets.MYSQL_ROOT_PASSWORD }}
+          DATABASE_NAME: bookstore_test`,
+    language: "yaml",
+    label: ".github/workflows/ci.yml"
+  }
+]} />
+
+This pipeline gave our team early feedback on changes, ensuring a more stable and collaborative development experience.
+
+---
+
+## Containerizing the Application with Docker
+
+Docker ensures consistent app behavior across machines by packaging it with dependencies.
+
+<CodeBlock
+  marginBottom="16"
+  highlight="1,5,10"
+  codes={[
+  {
+    code: `FROM node:20-alpine
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+RUN npm install --omit=dev
+
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]`,
+    language: "Dockerfile",
+    label: "Dockerfile"
+  }
+]} />
+
+### Testing Locally
+
+<CodeBlock
+  marginBottom="16"
+  codes={[
+  {
+    code: `docker build -t bookstore-api .
+docker run -p 8080:8080 bookstore-api`,
+    language: "bash",
+    label: "Local Test"
+  }
+]} />
+
+Containerization allowed each team member to run the same environment, reducing bugs and simplifying deployment.
+
+---
+
+## Deploying the Application to Google Cloud Platform (GCP)
+
+We used three main services from GCP:
+
+- **Cloud SQL**: managed MySQL for our data layer  
+- **Cloud Build**: built and deployed our Docker images  
+- **Cloud Run**: serverless container hosting with HTTPS and auto-scaling  
+
+## Service Configuration Screenshots
+**Cloud SQL Instance**
+
+
+**Cloud Run Service Build**
+
+
+### Why GCP?
+
+- Reliable, automated releases  
+- Built-in monitoring  
+- Simplified infrastructure management  
+- Easy rollback and scaling  
+
+---
+
+## Writing API Tests with Jest
+
+We used [Jest](https://jestjs.io) to test our API routes. These tests ran in our CI pipeline to catch regressions before deployment.
+
+<CodeBlock
+  marginBottom="16"
+  highlight="2,4-6,9-12"
+  codes={[
+  {
+    code: `describe('Books API', () => {
+  it('should fetch all books', async () => {
+    const res = await request(app).get('/books');
+    expect(res.statusCode).toEqual(200);
+    expect(Array.isArray(res.body)).toBe(true);
+  });
+
+  it('should fetch correct book by ID', async () => {
+    const res = await request(app).get('/books/1');
+    expect(res.body.title).toBe("Book Title 1");
+  });
+});`,
+    language: "js",
+    label: "tests/bookRoutes.test.js"
+  }
+]} />
+
+Tests increased our confidence and allowed us to safely refactor our backend.
+
+---
+
+## Managing Secrets in Every Environment
+
+We ensured secure and environment-specific secret handling:
+
+- **Local**: `.env` file (excluded from Git)  
+- **CI**: GitHub Actions secrets  
+- **Production**: GCP Secret Manager + Cloud Run environment variables  
+
+This protected sensitive information while keeping the setup reproducible.
+
+---
+
+## Challenges and Future Improvements
+
+### 🔐 GCP IAM Configuration
+
+Setting correct **Identity and Access Management (IAM)** roles on GCP was tricky at first. We followed the **principle of least privilege** to minimize risks.
+
+**Solution:**  
+We documented IAM role setups, separated deployment from testing accounts, and created scoped permissions.
+
+### 🧪 Test Coverage & Integration Tests
+
+We focused mainly on unit tests. In the future, we plan to:
+
+- Add integration tests that hit the live database  
+- Increase test coverage reports in CI  
+- Add performance benchmarking before release  
+
+---
+
+## Conclusion
+
+This project gave us real-world experience with DevOps workflows. We combined:
+
+- **CI/CD** via GitHub Actions  
+- **Docker** for containerized builds  
+- **Jest** for test-driven development  
+- **GCP** for secure and scalable hosting  
+
+By building a fully automated pipeline, we improved reliability, reduced manual errors, and delivered faster.
+
+---
