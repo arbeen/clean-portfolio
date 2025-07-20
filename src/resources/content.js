@@ -96,7 +96,7 @@ const about = {
     experiences: [
       {
         company: "Yuvoice (Freelance & Volunteer)",
-        timeframe: "2019 – Present",
+        timeframe: "Nov 2024 – Jan 2025",
         role: "Frontend Developer",
         achievements: [
           <>Assisting in frontend development and improving platform usability.</>,
