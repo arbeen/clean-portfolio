@@ -1,0 +1,144 @@
+---
+title: "What I Learned Today from Node.js Security Best Practices"
+summary: "My notes from reading the official Node.js security best practices guide, with practical steps I can apply in my own backend projects."
+publishedAt: "2026-04-24"
+image: "/images/blog/arbin/a.jpg"
+tag: "Backend"
+---
+
+## Why I am writing this
+
+Today I read the Node.js guide on security best practices:
+
+https://nodejs.org/learn/getting-started/security-best-practices
+
+I wanted to write down what stood out to me in simple words. This post is for my future self, so I can turn reading into better coding habits.
+
+---
+
+## My biggest takeaway
+
+Security is not one feature you add at the end.
+
+It is a set of small decisions made throughout the project:
+
+- what dependencies I install
+- how I validate user input
+- what data I expose in errors and logs
+- how I manage secrets and environment variables
+- how I run and deploy the app
+
+If I ignore these until production, fixing them later becomes much harder.
+
+---
+
+## Key points I learned
+
+### 1. Keep Node.js and dependencies updated
+
+Old versions can contain known vulnerabilities. The guide reminded me that updates are not just about new features, they are also about security patches.
+
+My habit going forward:
+
+- regularly update Node.js to supported LTS versions
+- run `npm audit` during development
+- remove packages I do not really need
+
+Less dependency surface means less risk.
+
+### 2. Be careful with third-party packages
+
+Node projects depend heavily on npm packages, but every package is code I am trusting.
+
+Before adding a package, I should quickly check:
+
+- if it is actively maintained
+- how popular and trusted it is
+- if I can solve the problem with built-in Node APIs instead
+
+This mindset helps avoid supply chain issues.
+
+### 3. Validate and sanitize all input
+
+Anything from users, query params, headers, and external services should be treated as untrusted.
+
+Even for small apps, input validation should be explicit and consistent. I should never assume data is already clean just because it came from my frontend.
+
+### 4. Do not leak sensitive information
+
+Detailed error stacks, debug logs, and internal system info can help attackers learn how the app works.
+
+In production:
+
+- return safe, generic error messages to clients
+- log useful details privately for developers
+- avoid printing secrets, tokens, or credentials
+
+### 5. Use secure HTTP and headers
+
+The guide reinforced that transport security matters.
+
+I should always:
+
+- use HTTPS in production
+- set security headers (for example with `helmet` in Express apps)
+- think about CORS policy carefully instead of allowing everything
+
+### 6. Handle authentication and sessions safely
+
+Auth code is one of the highest-risk parts of a backend.
+
+Important habits:
+
+- store passwords with strong hashing (never plain text)
+- set secure cookie flags when using cookies
+- validate and rotate tokens properly
+- add rate limiting on auth endpoints
+
+### 7. Run with least privilege
+
+The app process should only have permissions it needs, nothing more.
+
+That means:
+
+- avoid running as root in containers or servers
+- keep environment variables and secrets tightly scoped
+- separate roles for database and infrastructure access
+
+This limits damage if something goes wrong.
+
+---
+
+## How I want to apply this in my Node projects
+
+After reading, this is the practical checklist I want to follow:
+
+1. Use current Node LTS and keep dependencies updated.
+2. Add input validation to every request boundary.
+3. Add `helmet`, CORS rules, and rate limiting early.
+4. Keep secrets in environment variables, never in source code.
+5. Return safe production errors without exposing internals.
+6. Audit dependencies in CI before deployment.
+7. Run apps with minimal permissions.
+
+I think this checklist is realistic enough to use on every backend project.
+
+---
+
+## A reminder to myself
+
+I do not need to make everything perfect in one day, but I should stop treating security as optional polish.
+
+Good security is mostly discipline and consistency.
+
+Small secure defaults, repeated often, can prevent big problems later.
+
+---
+
+## Closing thoughts
+
+Reading the official Node.js security best practices guide helped me shift my mindset.
+
+I used to think security was advanced and separate from normal development. Now I see it as part of normal development.
+
+From now on, I want security to be part of how I design APIs, choose dependencies, and deploy services from day one.
