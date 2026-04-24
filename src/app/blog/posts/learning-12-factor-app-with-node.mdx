@@ -1,0 +1,138 @@
+---
+title: "What I Learned About the 12-Factor App While Learning Node"
+summary: "A simple breakdown of the 12-Factor App ideas and how I want to apply them in my Node.js projects."
+publishedAt: "2026-04-23"
+image: "/images/blog/arbin/12factor.jpg"
+tag: "Backend"
+---
+
+## Why I am writing this
+
+Today while learning Node.js, I came across the 12-Factor App methodology. At first it looked like a list of rules, but the more I read, the more I understood that it is really a way to build apps that are easier to deploy, scale, and maintain.
+
+This post is my personal notes in simple words.
+
+---
+
+## What is a 12-Factor App?
+
+The 12-Factor App is a set of best practices for building modern web apps, especially cloud-ready apps. It was originally written for SaaS applications, but the ideas are still very useful for Node.js apps today.
+
+The goal is to make your app:
+
+- easy to move between environments
+- easy to scale
+- easy to update safely
+- easier for teams to collaborate on
+
+---
+
+## The 12 factors in simple terms
+
+### 1. Codebase
+
+One codebase tracked in version control, many deploys.
+
+I should keep one source of truth in Git and deploy the same code to different environments like development, staging, and production.
+
+### 2. Dependencies
+
+Explicitly declare and isolate dependencies.
+
+In Node, this means managing dependencies clearly with `package.json` and lockfiles, and avoiding hidden global packages.
+
+### 3. Config
+
+Store config in the environment.
+
+Things like database URLs, API keys, and secrets should be in environment variables, not hardcoded in source code.
+
+### 4. Backing services
+
+Treat databases, queues, and caches as attached resources.
+
+A Node app should connect to services through config so I can swap local and cloud services without changing app logic.
+
+### 5. Build, release, run
+
+Strictly separate build, release, and run stages.
+
+Build creates the artifact, release combines artifact + config, and run starts the app. Keeping these steps separate makes deployments safer.
+
+### 6. Processes
+
+Execute the app as one or more stateless processes.
+
+Node processes should not store important data in memory between requests. Use a database or cache for state.
+
+### 7. Port binding
+
+Export services via port binding.
+
+A Node app should run as a self-contained service and expose itself on a port, instead of depending on a special web server setup.
+
+### 8. Concurrency
+
+Scale out via the process model.
+
+If load increases, add more process instances (or containers) rather than making one process do everything.
+
+### 9. Disposability
+
+Maximize robustness with fast startup and graceful shutdown.
+
+Node apps should start quickly and handle shutdown signals properly so deployments and restarts are smooth.
+
+### 10. Dev/prod parity
+
+Keep development, staging, and production as similar as possible.
+
+The bigger the environment gap, the more deployment bugs we get.
+
+### 11. Logs
+
+Treat logs as event streams.
+
+The app should write logs to stdout/stderr and let the platform handle collection and storage.
+
+### 12. Admin processes
+
+Run admin/management tasks as one-off processes.
+
+Migrations and maintenance scripts should run as separate tasks, using the same codebase and environment settings.
+
+---
+
+## How this connects to Node.js
+
+Learning Node becomes much clearer with these factors in mind.
+
+- `dotenv` and environment variables support factor 3.
+- NPM dependencies support factor 2.
+- Running with `node server.js` on a bound port supports factor 7.
+- Docker and process managers help with factors 6, 8, and 9.
+- CI/CD pipelines naturally match factor 5.
+
+So this is not theory only. These are practical habits I can start using now.
+
+---
+
+## My action plan after this
+
+Here is what I want to apply in my next Node project:
+
+1. Move all secrets and config into environment variables.
+2. Keep logs simple and stream them instead of writing local files.
+3. Make the app stateless and avoid session data in process memory.
+4. Add a clean startup and graceful shutdown flow.
+5. Keep dev and prod setup closer using Docker.
+
+---
+
+## Closing thoughts
+
+Today I learned that the 12-Factor App is not just a checklist. It is a mindset for writing production-ready applications.
+
+I am still early in my Node journey, but this gave me a better structure for how to build apps that can grow without becoming messy.
+
+I will come back to this post when I start my next backend project and check how many of these factors I actually follow.
